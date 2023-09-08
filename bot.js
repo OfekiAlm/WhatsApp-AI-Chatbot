@@ -8,6 +8,8 @@ const colors = require('colors');  //terminal enhancement, can be removed.
 const chat_funcionalities = require('./chat_funcionality');
 const GPT = require('./open_ai_gpt')
 
+const ASISTANT_LOGS = false;
+
 // Create a new WhatsApp client with local authentication method
 const client = new Client({
     authStrategy: new LocalAuth(),
@@ -33,20 +35,20 @@ client.on('message', async message => {
     // Create or retrieve the chat history file
     let filePath = 'chats_history/'+chat_funcionalities.removePattern(chatID) + '.json';
     
-    await chat_funcionalities.createChatHistoryOrRetrieve(filePath);
+    //await chat_funcionalities.createChatHistoryOrRetrieve(filePath);
     
     
 
     if(roleActionReq){
         // Extract the content after "!act" and log it as a system action
-        let contentRegex = extractTextAfterAct(message.body);
-        chat_funcionalities.writeChatHistory(filePath,{ role: 'system', content: contentRegex});
+        let contentRegex = chat_funcionalities.extractTextAfterAct(message.body);
+        await chat_funcionalities.createChatHistoryOrRetrieve(filePath,{ role: 'system', content: contentRegex});
         GPT.messages.push({ role: 'system', content: contentRegex });
         await message.reply("trying to act like mentioned");
     }
     else{
         // Log user messages in chat history
-        chat_funcionalities.writeChatHistory(filePath,{ role: 'user', content: message.body });
+        await chat_funcionalities.createChatHistoryOrRetrieve(filePath,{ role: 'user', content: message.body });
         GPT.messages.push({ role: 'user', content: message.body });
     }
 
@@ -57,8 +59,9 @@ client.on('message', async message => {
         await chat.sendMessage(answer);
     }
     
-    // Update the chat history
-    GPT.chatHistory = await chat_funcionalities.createChatHistoryOrRetrieve(filePath);
+    // Update the chat history for asistant ROLE
+    if(ASISTANT_LOGS)
+        GPT.chatHistory = await chat_funcionalities.createChatHistoryOrRetrieve(filePath, { role: 'asistant', content: answer });
 
     
 
