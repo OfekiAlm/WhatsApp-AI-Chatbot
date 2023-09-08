@@ -25,37 +25,31 @@ function getChatHistory(fileName){
     const data = JSON.parse(fs.readFileSync(fileName, 'utf-8'));
     return data.history;
 }
-
 /**
- * Creates or retrieves the chat history from a JSON file.
+ * Creates or retrieves the chat history from a JSON file and writes a message to it.
  *
  * @param {string} filename - The name of the JSON file to create or retrieve.
- * @returns {Array} - An array containing chat history.
- */
-async function createChatHistoryOrRetrieve(filename) {
-    const filePath = path.resolve(filename);
-    if(fs.existsSync(filePath)){
-        return getChatHistory(filePath);
-    }
-    else{
-        const initialData = { history: [] };
-        await fs.writeFileSync(filePath, JSON.stringify(initialData, null, 2));
-        return getChatHistory(filePath);
-    }
-}
-
-/**
- * Writes a message to the chat history in a JSON file.
- *
- * @param {string} filePath - The path to the JSON file to write the message to.
  * @param {string} message - The message to add to the chat history.
+ * @returns {Array} - An array containing updated chat history.
  */
-function writeChatHistory(filePath, message){
-    const loadedData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-    loadedData.history.push(message);
-    const jsonData = JSON.stringify(loadedData, null, 4);
-    
-    fs.writeFileSync(filePath,jsonData,'utf-8');
+async function createChatHistoryOrRetrieve(filename, message) {
+    const filePath = path.resolve(filename);
+
+    let chatHistory = [];
+    if (fs.existsSync(filePath)) {
+        // File exists, retrieve chat history
+        const loadedData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+        chatHistory = loadedData.history;
+    }
+
+    // Add the new message to the chat history
+    chatHistory.push(message);
+
+    // Write the updated chat history back to the file
+    const jsonData = JSON.stringify({ history: chatHistory }, null, 4);
+    fs.writeFileSync(filePath, jsonData, 'utf-8');
+
+    return chatHistory;
 }
 
 /**
@@ -75,6 +69,5 @@ module.exports = {
     extractTextAfterAct,
     getChatHistory,
     createChatHistoryOrRetrieve,
-    writeChatHistory,
     removePattern
 }
