@@ -33,11 +33,7 @@ client.on('message', async message => {
     await chat.sendStateTyping();
 
     // Create or retrieve the chat history file
-    let filePath = 'chats_history/'+chat_funcionalities.removePattern(chatID) + '.json';
-    
-    //await chat_funcionalities.createChatHistoryOrRetrieve(filePath);
-    
-    
+    let filePath = 'chats_history/'+chat_funcionalities.removePattern(chatID) + '.json';    
 
     if(roleActionReq){
         // Extract the content after "!act" and log it as a system action
