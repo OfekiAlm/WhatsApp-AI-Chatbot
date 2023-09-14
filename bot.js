@@ -8,7 +8,7 @@ const colors = require('colors');  //terminal enhancement, can be removed.
 const chat_funcionalities = require('./chat_funcionality');
 const GPT = require('./open_ai_gpt')
 
-const ASISTANT_LOGS = false;
+const ASSISTANT_LOGS = false;
 
 // Create a new WhatsApp client with local authentication method
 const client = new Client({
@@ -56,7 +56,7 @@ client.on('message', async message => {
     }
     
     // Update the chat history for asistant ROLE
-    if(ASISTANT_LOGS)
+    if(ASSISTANT_LOGS)
         GPT.chatHistory = await chat_funcionalities.createChatHistoryOrRetrieve(filePath, { role: 'asistant', content: answer });
 
     
