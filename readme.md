@@ -46,12 +46,16 @@ To get this project up and running, follow these steps:
     ```makefile
     OPENAI_API_KEY=your_api_key_here
     ```
+5. **Make a folder for chat history**: Create the directory using the following command:
+   ```bash
+   mkdir chats_history
+   ```
 
-5. **Start the Bot:** Run the bot using the following command:
+6. **Start the Bot:** Run the bot using the following command:
     ```bash
     node bot.js
     ```
-6. **Start Chatting:** Once the bot is running and authenticated, you can start chatting with it on WhatsApp!
+7. **Start Chatting:** Once the bot is running and authenticated, you can start chatting with it on WhatsApp!
 
 
 ## Using the Chatbot
