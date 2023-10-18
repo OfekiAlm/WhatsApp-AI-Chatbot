@@ -34,7 +34,6 @@ client.on('message', async message => {
 
     if(imageReq){
         const formatted_input = chat_functionalities.validateAndExtractImgCommand(message.body);
-        console.log(formatted_input);
         if(formatted_input.valid){
             let images = await GPT.generateImage(formatted_input.prompt,formatted_input.number);
             for (const image of images) {
