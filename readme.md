@@ -22,13 +22,13 @@ Welcome to the WhatsApp AI Chatbot! This project uses Node.js and OpenAI's GPT t
 
 This WhatsApp AI Chatbot is designed to interact with users in WhatsApp groups or individual chats. It can respond to user messages and perform specific actions when triggered by a message. The core functionality includes:
 
- - **User Messaging**: The chatbot can engage in conversations with users and respond to their messages.
+- **User Messaging**: The chatbot can engage in conversations with users and respond to their messages.
 
- - **Chat History**: All chat interactions are logged in JSON files, making it easy to track conversations and system actions over time.
+- **Chat History**: All chat interactions are logged in JSON files, making it easy to track conversations and system actions over time.
 
- # Installation
+# Installation
 
- To get this project up and running, follow these steps:
+To get this project up and running, follow these steps:
 
 1. **Clone the Repository:** Clone this GitHub repository to your local machine.
     ```bash
@@ -60,6 +60,16 @@ This WhatsApp AI Chatbot is designed to interact with users in WhatsApp groups o
 - To trigger system actions, send a message starting with "!act". The chatbot will log and respond to these actions. [Further information about this role](https://community.openai.com/t/the-system-role-how-it-influences-the-chat-behavior/87353)
 - All chat interactions are saved in JSON files in the `chats_history` directory.
 
+## Image Generation Feature
+
+The chatbot now supports image generation. Command format:
+```
+!generate [number of images] [prompt]
+```
+For example, `!generate 3 sunset over a beach`.
+
+default number of creations is one image.
+
 ## Project Structure
 
 - `bot.js`: Main entry point of the application.
@@ -78,12 +88,12 @@ This structured format simplifies the storage and retrieval of chat history for 
 
 ```json
 {
-    "history": 
-    [
-        { "role": "system", "content": "act like a teacher"},
-        { "role": "user", "content": "Hi"},
-        { "role": "user", "content": "Can you explain about math equations?"}
-    ]
+   "history":
+   [
+      { "role": "system", "content": "act like a teacher"},
+      { "role": "user", "content": "Hi"},
+      { "role": "user", "content": "Can you explain about math equations?"}
+   ]
 }
 ```
 Please note that messages sent by the assistant are not included in this JSON structure (For computing purposes).
