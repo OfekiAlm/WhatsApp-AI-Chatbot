@@ -2,6 +2,36 @@ const fs = require('fs');
 const path = require('path');
 
 /**
+ * Validates and extracts data from a given "!generate" command.
+ *
+ * The command format is expected to be one of the following:
+ * - "!generate [prompt]"
+ * - "!generate [number] [prompt]"
+ *
+ * A prompt is mandatory for the command to be considered valid.
+ *
+ * @param {string} input - The input string to be validated and parsed.
+ * @returns {object} An object with the following properties:
+ *                   - valid (boolean): Indicates if the command is valid.
+ *                   - number (number|null): The extracted number or null if not present.
+ *                   - prompt (string|null): The extracted prompt or null if not present.
+ */
+function validateAndExtractImgCommand(input) {
+    const regex = /^!generate(\s+(\d+))?\s+(.+)$/;
+    const match = input.match(regex);
+
+    if (!match) {
+        return { valid: false };
+    }
+
+    return {
+        valid: true,
+        number: match[2] ? parseInt(match[2], 10) : undefined,
+        prompt: match[3]
+    };
+}
+
+/**
  * Extracts text after a '!act' command from the given input.
  *
  * @param {string} input - The input string to search for '!act' commands.
@@ -66,6 +96,7 @@ function removePattern(inputText) {
 }
 
 module.exports = {
+    validateAndExtractImgCommand,
     extractTextAfterAct,
     getChatHistory,
     createChatHistoryOrRetrieve,
