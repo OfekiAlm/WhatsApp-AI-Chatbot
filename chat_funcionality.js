@@ -2,11 +2,11 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * Validates and extracts data from a given "!img" command.
+ * Validates and extracts data from a given "!generate" command.
  *
  * The command format is expected to be one of the following:
- * - "!img [prompt]"
- * - "!img [number] [prompt]"
+ * - "!generate [prompt]"
+ * - "!generate [number] [prompt]"
  *
  * A prompt is mandatory for the command to be considered valid.
  *
@@ -17,7 +17,7 @@ const path = require('path');
  *                   - prompt (string|null): The extracted prompt or null if not present.
  */
 function validateAndExtractImgCommand(input) {
-    const regex = /^!img(\s+(\d+))?\s+(.+)$/;
+    const regex = /^!generate(\s+(\d+))?\s+(.+)$/;
     const match = input.match(regex);
 
     if (!match) {

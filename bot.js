@@ -29,7 +29,7 @@ client.on('message', async message => {
 
     const chat = await message.getChat();
     let roleActionReq = message.body.includes("!act");
-    let imageReq = message.body.includes("!img");
+    let imageReq = message.body.includes("!generate");
     const chatID = chat.id._serialized;
 
     if(imageReq){
@@ -43,7 +43,7 @@ client.on('message', async message => {
             }
         }
         else
-            await chat.sendMessage("invalid command\n!img [number] [prompt]")
+            await chat.sendMessage("invalid command\n!generate [number] [prompt]")
         return;
     }
     await chat.sendStateTyping();
