@@ -30,8 +30,26 @@ async function askGPT(){
     return chatCompletion.choices[0].message.content;
 }
 
+/**
+ * Generates an image based on the provided text prompt using the OpenAI image generation API.
+ *
+ * @async
+ * @param {string} prompt - The text prompt to base the image generation on.
+ * @param number - number of times
+ * @returns {Promise<Array<Image>>} - A Promise that resolves to the URL of the generated image.
+ */
+async function generateImage(prompt, number = 1){
+    const response = await openai.images.generate({
+        prompt,
+        n: number,
+        size: "512x512",
+    });
+    return response.data;
+}
+
 module.exports = {
     askGPT,
+    generateImage,
     chatHistory,
     messages
 }

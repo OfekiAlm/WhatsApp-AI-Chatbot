@@ -1,11 +1,11 @@
 const qrcode = require('qrcode-terminal');
-const {Client, LocalAuth} = require('whatsapp-web.js');
+const {Client, LocalAuth, MessageMedia} = require('whatsapp-web.js');
 
 
 const colors = require('colors');  //terminal enhancement, can be removed.
 
 // Custom modules for chat functionality and OpenAI GPT interaction
-const chat_funcionalities = require('./chat_funcionality');
+const chat_functionalities = require('./chat_funcionality');
 const GPT = require('./open_ai_gpt')
 
 const ASSISTANT_LOGS = false;
@@ -29,22 +29,37 @@ client.on('message', async message => {
 
     const chat = await message.getChat();
     let roleActionReq = message.body.includes("!act");
+    let imageReq = message.body.includes("!img");
     const chatID = chat.id._serialized;
-    await chat.sendStateTyping();
 
+    if(imageReq){
+        const formatted_input = chat_functionalities.validateAndExtractImgCommand(message.body);
+        console.log(formatted_input);
+        if(formatted_input.valid){
+            let images = await GPT.generateImage(formatted_input.prompt,formatted_input.number);
+            for (const image of images) {
+                const imageUrlMedia = await MessageMedia.fromUrl(image.url);
+                await chat.sendMessage(imageUrlMedia);
+            }
+        }
+        else
+            await chat.sendMessage("invalid command\n!img [number] [prompt]")
+        return;
+    }
+    await chat.sendStateTyping();
     // Create or retrieve the chat history file
-    let filePath = 'chats_history/'+chat_funcionalities.removePattern(chatID) + '.json';    
+    let filePath = 'chats_history/'+chat_functionalities.removePattern(chatID) + '.json';
 
     if(roleActionReq){
         // Extract the content after "!act" and log it as a system action
-        let contentRegex = chat_funcionalities.extractTextAfterAct(message.body);
-        await chat_funcionalities.createChatHistoryOrRetrieve(filePath,{ role: 'system', content: contentRegex});
+        let contentRegex = chat_functionalities.extractTextAfterAct(message.body);
+        chat_functionalities.createChatHistoryOrRetrieve(filePath, {role: 'system', content: contentRegex});
         GPT.messages.push({ role: 'system', content: contentRegex });
         await message.reply("trying to act like mentioned");
     }
     else{
         // Log user messages in chat history
-        await chat_funcionalities.createChatHistoryOrRetrieve(filePath,{ role: 'user', content: message.body });
+        chat_functionalities.createChatHistoryOrRetrieve(filePath, {role: 'user', content: message.body});
         GPT.messages.push({ role: 'user', content: message.body });
     }
 
@@ -55,13 +70,9 @@ client.on('message', async message => {
         await chat.sendMessage(answer);
     }
     
-    // Update the chat history for asistant ROLE
+    // Update the chat history for assistant ROLE
     if(ASSISTANT_LOGS)
-        GPT.chatHistory = await chat_funcionalities.createChatHistoryOrRetrieve(filePath, { role: 'asistant', content: answer });
-
-    
-
-
+        GPT.chatHistory = chat_functionalities.createChatHistoryOrRetrieve(filePath, { role: 'asistant', content: answer });
 });
 
 // Initialize the WhatsApp client
