@@ -1,6 +1,6 @@
 const openAI = require('openai');
 const dotenv =  require('dotenv'); // loading the API key from .env file.
-
+const { createReadStream } = require('fs');
 dotenv.config();
 
 let chatHistory = [];
@@ -47,9 +47,17 @@ async function generateImage(prompt, number = 1){
     return response.data;
 }
 
+async function transcribeAudio(file){
+    const response = await openai.audio.transcriptions.create({
+        file: createReadStream(file),
+        model: "whisper-1"
+    })
+    return response.text;
+}
 module.exports = {
     askGPT,
     generateImage,
+    transcribeAudio,
     chatHistory,
     messages
 }

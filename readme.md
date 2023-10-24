@@ -50,7 +50,11 @@ To get this project up and running, follow these steps:
    ```bash
    mkdir chats_history
    ```
-
+6. **(OPTINAL) for transcriptions funcionality**:
+Create the directory using the following command:
+   ```bash
+   mkdir .audio_cache
+   ```
 6. **Start the Bot:** Run the bot using the following command:
     ```bash
     node bot.js
