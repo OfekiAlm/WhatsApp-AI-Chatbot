@@ -50,12 +50,28 @@ To get this project up and running, follow these steps:
    ```bash
    mkdir chats_history
    ```
+6. **(OPTINAL) for transcriptions funcionality**:
+Create the directory using the following command:
+   ```bash
+   mkdir .audio_cache
+   ```
+    And if you haven't installed `ffmpeg` already:
+    
+    Linux - 
+    ```bash
+    sudo apt update
+    sudo apt install ffmpeg
+    ``` 
 
-6. **Start the Bot:** Run the bot using the following command:
+    Windows -
+
+    You can follow [this](https://phoenixnap.com/kb/ffmpeg-windows) tutorial which is guiding with a step by step explanation
+
+7. **Start the Bot:** Run the bot using the following command:
     ```bash
     node bot.js
     ```
-7. **Start Chatting:** Once the bot is running and authenticated, you can start chatting with it on WhatsApp!
+8. **Start Chatting:** Once the bot is running and authenticated, you can start chatting with it on WhatsApp!
 
 
 ## Using the Chatbot
