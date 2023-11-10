@@ -29,7 +29,9 @@ client.on('ready', () => {
 
 // Listen for incoming messages from users
 client.on('message', async message => {
-    if (message.from === `${process.env.PHONE_NUMBER_TO_CONTACT}@c.us`) {
+    console.log(process.env.PHONE_NUMBER_TO_CONTACT)
+    if (process.env.PHONE_NUMBER_TO_CONTACT && message.from !== `${process.env.PHONE_NUMBER_TO_CONTACT}@c.us`) 
+        return;
 
         const chat = await message.getChat();
         let roleActionReq = message.body.includes("!act");
@@ -109,7 +111,6 @@ client.on('message', async message => {
         // Update the chat history for assistant ROLE
         if (ASSISTANT_LOGS)
             GPT.chatHistory = chat_functionalities.createChatHistoryOrRetrieve(filePath, { role: 'asistant', content: answer });
-    }
 });
 
 // Initialize the WhatsApp client
