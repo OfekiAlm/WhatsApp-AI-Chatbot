@@ -71,7 +71,11 @@ Create the directory using the following command:
     ```bash
     node bot.js
     ```
-8. **Start Chatting:** Once the bot is running and authenticated, you can start chatting with it on WhatsApp!
+8. **(OPTINAL) For testing purposes**:
+    ```
+    PHONE_NUMBER_TO_CONTACT = your_number 
+    ```
+9. **Start Chatting:** Once the bot is running and authenticated, you can start chatting with it on WhatsApp!
 
 
 ## Using the Chatbot
