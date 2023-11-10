@@ -3,4 +3,6 @@
 /.wwebjs_cache
 /.wwebjs_auth
 /package-lock.json
+
 /chats_history
+/.audio_cache

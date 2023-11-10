@@ -25,11 +25,13 @@ client.on('qr', qr => {
 
 client.on('ready', () => {
     console.log(colors.bold.green('[+] Client is ready!'));
+    
+    if(process.env.PHONE_NUMBER_TO_CONTACT)
+        console.log(colors.bold.blue("The bot will reply only for this number if defined correctly in .env:\n" +process.env.PHONE_NUMBER_TO_CONTACT))
 });
 
 // Listen for incoming messages from users
 client.on('message', async message => {
-    console.log(process.env.PHONE_NUMBER_TO_CONTACT)
     if (process.env.PHONE_NUMBER_TO_CONTACT && message.from !== `${process.env.PHONE_NUMBER_TO_CONTACT}@c.us`) 
         return;
 
