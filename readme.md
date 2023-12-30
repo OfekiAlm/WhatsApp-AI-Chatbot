@@ -71,7 +71,8 @@ Create the directory using the following command:
     ```bash
     node bot.js
     ```
-8. **(OPTINAL) For testing purposes**:
+8. **Setting a phone number For testing purposes(OPTIONAL):** 
+This phone number will act as chatGPT reciever of messages and will respond to each message sent to this phone number via Whatsapp.
     ```
     PHONE_NUMBER_TO_CONTACT = your_number 
     ```
