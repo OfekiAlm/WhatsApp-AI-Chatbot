@@ -5,7 +5,7 @@ const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
 const colors = require('colors');
 
 // Custom modules for chat functionality and OpenAI GPT interaction
-const chat_functionalities = require('./chat_funcionality');
+const chatFunctionalities = require('./chatFuncionality');
 const GPT = require('./open_ai_gpt');
 const { handleImageReq } = require('./imageRequest');
 const { handleTranscribeReq } = require('./transcribeRequest');
@@ -52,14 +52,14 @@ client.on('message', async (message) => {
     handleTranscribeReq(transcribeReq, message, chat, GPT);
 
 
-    handleImageReq(imageReq, message, chat_functionalities, chat);
+    handleImageReq(imageReq, message, chatFunctionalities, chat);
 
     await chat.sendStateTyping();
 
     // Create or retrieve the chat history file
-    let filePath = 'chats_history/' + chat_functionalities.removePattern(chatID) + '.json';
+    let filePath = 'chats_history/' + chatFunctionalities.removePattern(chatID) + '.json';
 
-    handleRoleActionReq(roleActionReq, message, GPT, chat_functionalities);
+    handleRoleActionReq(roleActionReq, message, GPT, chatFunctionalities);
 
     // Generate a response
     const answer = await GPT.askGPT();
@@ -70,7 +70,7 @@ client.on('message', async (message) => {
 
     // Update the chat history for assistant ROLE
     if (ASSISTANT_LOGS)
-        GPT.chatHistory = chat_functionalities.createChatHistoryOrRetrieve(filePath, { role: 'asistant', content: answer });
+        GPT.chatHistory = chatFunctionalities.createChatHistoryOrRetrieve(filePath, { role: 'asistant', content: answer });
 });
 
 // Initialize the WhatsApp client

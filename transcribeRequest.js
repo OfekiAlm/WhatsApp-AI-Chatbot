@@ -2,9 +2,8 @@ const fs = require('fs');
 const { unlink } = require('node:fs');
 const child_process = require('child_process');
 
-export const handleTranscribeReq = async (req, message, chat, GPT) => {
+const handleTranscribeReq = async (req, message, chat, GPT) => {
     if (req) {
-
         if (!message.hasQuotedMsg) {
             await chat.sendMessage("You should quote a audio/video message!");
             return;
@@ -37,3 +36,8 @@ export const handleTranscribeReq = async (req, message, chat, GPT) => {
         return;
     }
 }
+console.log(`handleTranscribeReq:`, handleTranscribeReq);
+
+module.exports = {
+    handleTranscribeReq,
+};

@@ -1,9 +1,9 @@
 
 
-export const handleImageReq = async (req, message, chat_functionalities, chat) => {
+const handleImageReq = async (req, message, chatFunctionalities, chat) => {
     if (req) {
 
-        const formatted_input = chat_functionalities.validateAndExtractImgCommand(message.body);
+        const formatted_input = chatFunctionalities.validateAndExtractImgCommand(message.body);
         if (formatted_input.valid) {
             let images = await GPT.generateImage(formatted_input.prompt, formatted_input.number);
             for (const image of images) {
@@ -16,3 +16,7 @@ export const handleImageReq = async (req, message, chat_functionalities, chat) =
         return;
     }
 }
+
+module.exports = {
+    handleImageReq,
+};
